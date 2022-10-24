@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                [%X{req.root_id}] %cyan(%d{ISO8601}) %highlight(%-5level) [%blue(%t{10})] %yellow(%.-30C{30}): %msg%n%throwable
+
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RCEA" class="com.linecorp.armeria.common.logback.RequestContextExportingAppender">
+        <appender-ref ref="Console"/>
+        <export>remote.ip</export>
+        <export>req.root_id</export>
+        <export>tls.cipher</export>
+        <export>req.headers.user-agent</export>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="RCEA"/>
+    </root>
+</configuration>
